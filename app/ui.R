@@ -49,5 +49,6 @@ ui <- secure_app(
     ")),
     tags$title("SIII 612 Lab Dashboard"),  # this title was showed when login
     useShinyjs()
-  )
+  ),
+  fab_position = "bottom-left"
 )

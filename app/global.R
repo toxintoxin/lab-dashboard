@@ -31,4 +31,4 @@ url <- sprintf(
   mongodb$host
 )
 
-credentials <- mongo(collection = "credentials", db = "siii612_co", url = url, options = ssl_options(weak_cert_validation = TRUE))$find()
+credentials <- mongo(collection = "credentials_shiny", db = "security", url = url, options = ssl_options(weak_cert_validation = TRUE))$find()
