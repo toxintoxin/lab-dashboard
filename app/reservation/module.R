@@ -63,7 +63,7 @@ calServer <- function(id) {
         size = "l",
         title = "Reservation",
         tagList(
-          tags$p(tags$b(session$userData$user_zh)),
+          tags$p(tags$b(session$userData$display_name)),
           "from",
           tags$b(with_tz(as_datetime(input$selection$start), "Asia/Shanghai")),
           " to ",
@@ -84,14 +84,14 @@ calServer <- function(id) {
         calendarId = id,
         start = with_tz(as_datetime(input$selection$start), "Asia/Shanghai"),
         end = with_tz(as_datetime(input$selection$end), "Asia/Shanghai"),
-        title = session$userData$user_zh
+        title = session$userData$display_name
       ))
       removeModal()
     })
 
     observeEvent(input$cal_delete, {
       entry_title <- conn$find(sprintf('{"id": %d}', as.double(input$cal_delete$id)))$title
-      if (entry_title != session$userData$user_zh) {
+      if (entry_title != session$userData$display_name) {
         showNotification("You can't delete someone's reservation.", type = "error")
       } else {
         conn$remove(sprintf('{"id": %d}', as.double(input$cal_delete$id)))

@@ -22,22 +22,24 @@ labmeetingServer <- function(id) {
     )
 
     output$DT <- renderDT({
-      datatable(lab_meeting(),
+      req(lab_meeting())
+      df <- lab_meeting()
+      datatable(
+        data = df,
         selection = "none",
         options = list(
           dom = "frt",
           pageLength = -1,
           order = list(1, 'desc'),
           columnDefs = list(
-            list(orderable = FALSE, targets = c(2:4)),
-            list(targets = 1, render = JS("
-              function(data, type, row, meta) {
-                return new Date(data).toLocaleDateString();
-              }
-            "))
+            list(orderable = FALSE, targets = c(2:4))
           )
         )
-      )
+      ) %>%
+        formatDate(
+          columns = c("Date"),
+          method = "toLocaleDateString"
+        )
     })
 
   })

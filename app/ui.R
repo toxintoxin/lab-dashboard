@@ -25,6 +25,7 @@ ui <- page_fluid(
       )
     ),
     tabPanel("Lab meeting", labmeetingUI("labmeeting")),
+    tabPanel("Tags of Library", crudUI("library_tags")),
     tabPanel("Library", libraryUI("library")),
     "Routine",
     tabPanel("Routine of FSH group", routineUI("fsh")),
@@ -32,10 +33,10 @@ ui <- page_fluid(
     "Contact",
     tabPanel("Members", membersUI("members")),
     "Database",
-    tabPanel("Lipid", dbUI("lipid")),
-    tabPanel("Antibody", dbUI("antibody")),
+    tabPanel("Lipid", crudUI("db_lipid")),
+    tabPanel("Antibody", crudUI("db_antibody")),
     "Test Panels",
-    tabPanel("person CRUD test", crudDTOutput("person"))
+    tabPanel("CRUD test", crudUI("penguins"))
   )
 )
 
@@ -43,7 +44,7 @@ ui <- secure_app(
   ui = ui,
   head_auth = tagList(
     tags$link(rel = "shortcut icon", href = "favicon.ico"),
-    tags$link(rel="stylesheet", href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css"),
+    # tags$link(rel="stylesheet", href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css"),
     tags$style(HTML("
     
     ")),

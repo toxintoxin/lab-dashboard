@@ -66,17 +66,17 @@ libraryServer <- function(id) {
         if ((!doi %in% conn$find()$DOI)) {
           tryCatch({
             data <- cr_works(dois = doi)$data
-            new_row <- data.frame(check.names = FALSE, stringsAsFactors = FALSE,
+            new_document <- tibble(
               Index = nrow(conn$find()) + 1,
               Title = data$title,
               Journal = ifelse("container.title" %in% names(data), data$container.title, "not found"),
-              Tags = "",
+              Tags = list(c("-")),
               DOI = doi,
               "Time Added" = Sys.time(),
-              "Added by" = session$userData$user_en,
+              "Added by" = session$userData$nickname,
               JC = "-"
             )
-            conn$insert(as.data.frame(new_row))
+            conn$insert(new_document)
             showNotification("Paper +1 !", type = "message")
             removeModal()
           }, warning  = function(w) {
@@ -114,7 +114,7 @@ libraryServer <- function(id) {
         } else {
           query <- sprintf('{"Index": %d}', index_num)
           entry_added_by <- conn$find(query)$`Added by`
-          if (entry_added_by != session$userData$user_en) {
+          if (entry_added_by != session$userData$nickname) {
             showNotification("You can't delete someone's entry.", type = "error")
           } else {
             conn$remove(query)
@@ -131,7 +131,7 @@ libraryServer <- function(id) {
         title = "JC Mark",
         tagList(
           textInput(ns("index_num"), "Index number"),
-          selectInput(ns("jc_person"), "Mark", choices = c(Choose = "", "-", session$userData$members$name_en))
+          selectInput(ns("jc_person"), "Mark", choices = c(Choose = "", "-", session$userData$members$nickname))
         ),
         footer = tagList(
           modalButton("Cancel"),
@@ -187,15 +187,14 @@ libraryServer <- function(id) {
                   return '<a href=\"https://doi.org/' + data + '\" target=\"_blank\">' + data + '</a>';
                 }
               }
-            ")),
-            list(targets = 5, render = JS("
-              function(data, type, row, meta) {
-                return new Date(data).toLocaleString();
-              }
             "))
           )
         )
-      )
+      ) %>%
+        formatDate(
+          columns = c("Time Added"),
+          method = "toLocaleString"
+        )
     })
 
   })

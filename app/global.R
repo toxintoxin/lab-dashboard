@@ -20,9 +20,13 @@ source("labmeeting/module.R")
 source("reservation/module.R")
 source("routine/module.R")
 source("database/module.R")
-source("crudDT_module.R")
 
-mongodb <- config::get("mongodb")
+source("crud-modules/crud.R")
+source("crud-modules/crud_edit.R")
+source("crud-modules/crud_clone.R")
+source("crud-modules/crud_delete.R")
+
+mongodb <- config::get()$mongodb
 
 url <- sprintf(
   "mongodb+srv://%s:%s@%s/",
@@ -31,4 +35,4 @@ url <- sprintf(
   mongodb$host
 )
 
-credentials <- mongo(collection = "credentials_shiny", db = "security", url = url, options = ssl_options(weak_cert_validation = TRUE))$find()
+credentials <- mongo(collection = "credentials", db = "shinyAccess", url = url, options = ssl_options(weak_cert_validation = TRUE))$find()

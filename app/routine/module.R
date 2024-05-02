@@ -33,15 +33,14 @@ routineServer <- function(id) {
           pageLength = -1,
           order = list(1, 'desc'),
           columnDefs = list(
-            list(orderable = FALSE, targets = 2),
-            list(targets = 1, render = JS("
-              function(data, type, row, meta) {
-                return new Date(data).toLocaleDateString();
-              }
-            "))
+            list(orderable = FALSE, targets = 2)
           )
         )
-      )
+      ) %>%
+        formatDate(
+          columns = c("Date"),
+          method = "toLocaleDateString"
+        )
     })
 
     output$mycoplasma <- renderDT({
@@ -52,15 +51,14 @@ routineServer <- function(id) {
           pageLength = -1,
           order = list(1, 'desc'),
           columnDefs = list(
-            list(orderable = FALSE, targets = 2),
-            list(targets = 1, render = JS("
-              function(data, type, row, meta) {
-                return new Date(data).toLocaleDateString();
-              }
-            "))
+            list(orderable = FALSE, targets = 2)
           )
         )
-      )
+      ) %>%
+        formatDate(
+          columns = c("Date"),
+          method = "toLocaleDateString"
+        )
     })
 
     output$fbsdeact <- renderDT({
@@ -71,15 +69,14 @@ routineServer <- function(id) {
           pageLength = -1,
           order = list(1, 'desc'),
           columnDefs = list(
-            list(orderable = FALSE, targets = 2),
-            list(targets = 1, render = JS("
-              function(data, type, row, meta) {
-                return new Date(data).toLocaleDateString();
-              }
-            "))
+            list(orderable = FALSE, targets = 2)
           )
         )
-      )
+      ) %>%
+        formatDate(
+          columns = c("Date"),
+          method = "toLocaleDateString"
+        )
     })
   })
 }
